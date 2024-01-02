@@ -1,4 +1,5 @@
 terraform {
+    backend "s3" {}
     required_providers {
       aws = {
         source = "hashicorp/aws"
@@ -8,7 +9,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-central-1"
+  region = var.aws_region
 }
 
 resource "aws_elastic_beanstalk_application" "app" {
@@ -16,7 +17,6 @@ resource "aws_elastic_beanstalk_application" "app" {
   description = "simple app to demonstrate DevOps workflows in AWS."
   tags = {
     owner = "daniel.kemnitz@atos.net"
-    env = "dev"
   }
 }
 
@@ -32,6 +32,5 @@ resource "aws_elastic_beanstalk_environment" "env" {
   }
   tags = {
     owner = "daniel.kemnitz@atos.net"
-    env = "dev"
   }
 }

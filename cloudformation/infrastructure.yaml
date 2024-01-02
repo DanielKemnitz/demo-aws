@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  prefix:
+    Type: String
+    Default: kemnitz
+  
+Resources:
+  s3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketName: ${prefix}-terraform-bucket
+      Tags:
+        - Key: Owner
+          Value: daniel.kemnitz@atos.net
