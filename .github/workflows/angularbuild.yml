@@ -21,6 +21,7 @@ jobs:
       with:
         node-version: '16.x'
     - run: |
+        cd ../
         npm install -g @angular/cli@16.2.11
         npm install
         ng build
