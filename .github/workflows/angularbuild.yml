@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Node.js CI
+name: Angular Build and Deploy to AWS Elastic Beanstalk
 
 on:
   push:
@@ -19,25 +19,45 @@ jobs:
     - name: Install Node.Js 16.x, Angular CLI and execute build process
       uses: actions/setup-node@v3
       with:
-        node-version: "16.x"
+        node-version: '16.x'
     - run: |
         npm install -g @angular/cli
         ng build
 
-    - name: ZIP Files
-      run: zip -r build.zip * .[^.]* -x "**node_modules**"
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: build
+        path: |
+          dist
+          !dist/**/*.md
 
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Deploy to Elastic Beanstalk
-      uses: einaregilsson/beanstalk-deploy@v16
+    - name: Download Build Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: build
+    
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ vars.AWS_REGION }}
+    
+    - name: Deploy Build Artifact to AWS Elastic Beanstalk
+      uses: einaregilsson/beanstalk-deploy@v21
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         application_name: demo-aws-app-dev
         environment_name: demo-aws-app-env-dev
+        version_label: 1
         region: ${{ vars.AWS_REGION }}
         deployment_package: build.zip
-    
