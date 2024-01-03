@@ -11,6 +11,15 @@ on:
     branches:
     - dev
 
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+  AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+  AWS_REGION: "${{ vars.AWS_REGION }}"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -50,10 +59,10 @@ jobs:
     - name: Deploy Build Artifact to AWS Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v21
       with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_access_key: ${{ env.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ env.AWS_SECRET_ACCESS_KEY }}
         application_name: demo-aws-app-dev
         environment_name: demo-aws-app-env-dev
         version_label: 1
-        region: ${{ vars.AWS_REGION }}
+        region: ${{ env.AWS_REGION }}
         deployment_package: build.zip
