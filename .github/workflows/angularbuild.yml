@@ -1,7 +1,4 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Angular Build and Deploy to AWS Elastic Beanstalk
+name: 'Angular Build and Deploy to AWS Elastic Beanstalk'
 
 on:
   push:
@@ -13,9 +10,9 @@ permissions:
   pull-requests: write
 
 env:
-  AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
-  AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-  AWS_REGION: "${{ vars.AWS_REGION }}"
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
 
 jobs:
   build:
@@ -54,11 +51,11 @@ jobs:
       uses: actions/checkout@v4
     
     - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v2
+      uses: aws-actions/configure-aws-credentials@v3
       with:
         aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+        aws-region: eu-central-1
     
     - name: Deploy Build Artifact to AWS Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v21
