@@ -66,5 +66,5 @@ jobs:
         application_name: demo-aws-app-dev
         environment_name: demo-aws-app-env-dev
         version_label: 1
-        region: ${{ env.AWS_REGION }}
+        region: eu-central-1
         deployment_package: build.zip
