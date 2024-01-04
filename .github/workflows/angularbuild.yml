@@ -18,7 +18,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    environment: development
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -41,6 +41,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    environment: development
     needs: build
     steps:
     - name: Download Build Artifact
@@ -59,11 +60,7 @@ jobs:
     #    aws-region: ${{ env.AWS_REGION }}
     
     - name: Deploy Build Artifact to AWS Elastic Beanstalk
-      uses: einaregilsson/beanstalk-deploy@v21
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: ${{ vars.AWS_REGION }}      
+      uses: einaregilsson/beanstalk-deploy@v21   
       with:
         aws_access_key: ${{ env.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ env.AWS_SECRET_ACCESS_KEY }}
