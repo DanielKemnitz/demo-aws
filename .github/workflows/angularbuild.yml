@@ -30,9 +30,14 @@ jobs:
         npm install -g @angular/cli@16.2.11
         npm install
         ng build
-
+    - name: ZIP Build Package
+      run: zip -r build.zip . -x '*.git'
+    
     - name: Upload Build Artifact
-      uses: actions/upload-artifact@v3
+      run: |
+        mkdir -p /artifact  
+        echo hello >
+    - uses: actions/upload-artifact@v4
       with:
         name: build
         path: |
