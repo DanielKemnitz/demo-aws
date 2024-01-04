@@ -34,15 +34,10 @@ jobs:
       run: zip -r build.zip . -x '*.git'
     
     - name: Upload Build Artifact
-      run: |
-        mkdir -p /artifact  
-        echo hello >
-    - uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v4
       with:
         name: build
-        path: |
-          dist
-          !dist/**/*.md
+        path: build
 
   deploy:
     runs-on: ubuntu-latest
