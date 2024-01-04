@@ -59,12 +59,12 @@ jobs:
     #    aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
     #    aws-region: ${{ env.AWS_REGION }}
     
-    - name: Troubleshoot
-      run: | 
-        pwd
-        cd demo-aws
-        pwd
-        ls
+    #- name: Troubleshoot
+    #  run: | 
+    #    pwd
+    #    cd demo-aws
+    #    pwd
+    #    ls
 
     - name: Deploy Build Artifact to AWS Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v21   
@@ -76,4 +76,4 @@ jobs:
         version_label: ${{ github.run_number }}
         region: ${{ env.AWS_REGION }}
         use_existing_version_if_available: true
-        deployment_package: /home/runner/work/demo-aws/demo-aws/build.zip
+        deployment_package: demo-aws
