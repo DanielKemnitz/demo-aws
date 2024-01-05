@@ -60,7 +60,7 @@ jobs:
         echo "/home/runner/work/demo-aws/demo-aws/demo-aws >> ls -R"
         ls -R
         echo "/home/runner/work/demo-aws/demo-aws/demo-aws >> zip -r build.zip ."
-        zip -r build.zip .
+        zip -r ../build.zip .
         echo "/home/runner/work/demo-aws/demo-aws/demo-aws >> ls -R"
         ls -R
 
