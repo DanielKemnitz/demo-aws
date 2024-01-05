@@ -53,22 +53,8 @@ jobs:
       with:
         name: build
     
-    #- name: Checkout
-    #  uses: actions/checkout@v4
-    
-    #- name: Configure AWS Credentials
-    #  uses: aws-actions/configure-aws-credentials@v3
-    #  with:
-    #    aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
-    #    aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
-    #    aws-region: ${{ env.AWS_REGION }}
-    
-    #- name: Troubleshoot
-    #  run: | 
-    #    pwd
-    #    cd demo-aws
-    #    pwd
-    #    ls
+    - name: Display structure of downloaded files  
+      run: ls -R
 
     - name: Deploy Build Artifact to AWS Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v21   
@@ -80,4 +66,4 @@ jobs:
         version_label: ${{ github.run_number }}
         region: ${{ env.AWS_REGION }}
         use_existing_version_if_available: true
-        deployment_package: build.zip
+        deployment_package: demo-aws
