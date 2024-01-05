@@ -56,9 +56,12 @@ jobs:
     
     - name: ZIP downloaded build artifact 
       run: |
-        cd /home/runner/work/demo-aws
+        cd /home/runner/work/demo-aws/demo-aws
+        echo "/home/runner/work/demo-aws/demo-aws >> ls -R"
         ls -R
+        echo "/home/runner/work/demo-aws/demo-aws >> zip -r build.zip ."
         zip -r build.zip .
+        echo "/home/runner/work/demo-aws/demo-aws >> ls -R"
         ls -R
 
     - name: Deploy Build Artifact to AWS Elastic Beanstalk
