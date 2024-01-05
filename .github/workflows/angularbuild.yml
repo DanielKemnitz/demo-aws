@@ -32,7 +32,7 @@ jobs:
         ng build
     - name: ZIP Build Package
       run: |
-        zip -r build.zip . -x '*.git'
+        zip -r build.zip . ./dist/*
         pwd
         ls -R
     
