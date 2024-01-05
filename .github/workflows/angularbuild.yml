@@ -35,7 +35,13 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build
-        path: build
+        path: ./dist/*
+
+    - name: check Artifact location
+      run: |
+        pwd
+        ls -R
+
 
   deploy:
     runs-on: ubuntu-latest
