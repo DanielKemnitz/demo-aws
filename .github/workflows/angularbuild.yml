@@ -31,7 +31,10 @@ jobs:
         npm install
         ng build
     - name: ZIP Build Package
-      run: zip -r build.zip . -x '*.git'
+      run: |
+        zip -r build.zip . -x '*.git'
+        pwd
+        ls -R
     
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
