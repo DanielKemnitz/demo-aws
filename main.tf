@@ -34,3 +34,16 @@ resource "aws_elastic_beanstalk_environment" "env" {
     owner = "daniel.kemnitz@atos.net"
   }
 }
+
+resource "aws_db_instance" "db" {
+  allocated_storage = 1
+  db_name = preferences
+  engine = mysql
+  instance_class = "t4g.nano"
+  username = var.db_username
+  password = var.db_password
+  port = 3306
+  tags = {
+    owner = "daniel.kemnitz@atos.net"
+  }
+}
