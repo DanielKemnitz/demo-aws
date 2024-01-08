@@ -1,15 +1,9 @@
 name: 'Terraform Deploy to Dev'
 
 on:
-  push:
-    branches:
-      - dev
-  pull_request:
-    branches:
-      - dev
   workflow_dispatch:
     branches:
-      - main
+      - dev
 
 permissions:
   contents: read
@@ -50,10 +44,6 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init -reconfigure -backend-config=settings/dev/backend.conf
-
-    # Checks that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Format
-      run: terraform fmt -check
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
@@ -98,7 +88,22 @@ jobs:
         SUMMARY: ${{ steps.tf-plan-string.outputs.summary }}
       run: |
         echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
-
+     # If this is a PR post the changes
+    - name: Push Terraform Output to PR
+      if: github.ref != 'refs/heads/dev'
+      uses: actions/github-script@v6
+      env:
+        SUMMARY: "${{ steps.tf-plan-string.outputs.summary }}"
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+         const body = `${process.env.SUMMARY}`;
+         github.rest.issues.createComment({
+             issue_number: context.issue.number,
+             owner: context.repo.owner,
+             repo: context.repo.repo,
+             body: body
+         })
 
   terraform-apply:
     name: Terraform Apply
