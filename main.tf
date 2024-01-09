@@ -37,8 +37,8 @@ resource "aws_elastic_beanstalk_environment" "env" {
 
 resource "aws_db_instance" "db" {
   allocated_storage = 1
-  db_name = preferences
-  engine = mysql
+  db_name = "preferences"
+  engine = "mysql"
   instance_class = "t4g.nano"
   username = var.db_username
   password = var.db_password
